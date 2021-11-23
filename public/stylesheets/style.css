@@ -1,8 +1,38 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #eee;
+  font-size: 26px;
 }
 
-a {
-  color: #00B7FF;
+.wrapper {
+  width: 90vh;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 10px;
+}
+
+header,
+footer {
+  background-color: rgba(241, 133, 9, 0.904);
+  padding: 20px;
+  text-align: center;
+}
+
+main {
+  background-color: rgba(255, 248, 220, 0.479);
+  padding: 20px;
+}
+
+div img {
+ background-image: url('../images/box3.png');
+ 
+ background-size: contain;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+img {
+  height: 400px;
+  width: 350px;
 }
