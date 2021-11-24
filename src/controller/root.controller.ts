@@ -41,15 +41,37 @@ export const postAuthor = (req:Request, res:Response, _next:NextFunction)=>{
         return res.status(400).send(error.details[0].message)
     }else{
         const data = readFile();
-        const newBook = { ...req.body, books: getIdForBooks(req.body.books)  }
-        const newData = {id: data.length + 1, dateRegistered: new Date().getTime(), ...newBook};
-         
-         const allNewData = [...data, newData];
+        // const newBook = { ...req.body, books: getIdForBooks(req.body.books)  }
+        const {author, age, address}  = req.body
+        // const newData = {id: data.length + 1, dateRegistered: new Date().getTime(), ...newBook};
+        let newAuthor
+        let allNewData
+        if(data.length === 0){
+            newAuthor = {
+                id: 1,
+                author,
+                age,
+                address,
+                dateRegistered: Date.now(),
+                books: []
+            }
+            allNewData = [newAuthor]
+        }else{
+            newAuthor = {
+                id: data.length + 1,
+                author,
+                age,
+                address,
+                dateRegistered: Date.now(),
+                books: []
+            }
+            allNewData = [...data, newAuthor];
+        }
          console.log(allNewData, "DATA")
     
          writeFile(allNewData);
     
-        res.status(201).json({message: "create new book...", data: newData})
+        res.status(201).json({message: "create new book...", data: newAuthor})
     }
 
 }
@@ -66,18 +88,40 @@ export const postBook = (req:Request, res:Response) => {
 const data = readFile();
 
 let authorFind = data.find(((item: {item:author, id: number})=> `${item.id}` === req.params.authorId));
+const authorIndex = data.findIndex((item: {item:author, id: number}) => `${item.id}` === req.params.authorId)
 
 if(!authorFind){
 
 return res.status(404).json({message:"author does not exist"})
 
 }
+
+const {name, isPublished, datePublished, serialNumber} = req.body
+let bookId
+if(authorFind.books.length === 0){
+    bookId = 'book1'
+}else{
+    bookId = `book${authorFind.books.length + 1}`
+}
+
+const newBook = {
+    id: bookId,
+    name,
+    isPublished,
+    datePublished: datePublished || null,
+    serialNumber: serialNumber || null
+}
+
 authorFind = {
 
 ...authorFind,
 
-books: [ ...authorFind.books, { id: `book${authorFind.books.length + 1}`, ...req.body } ]
+books: [ ...authorFind.books, newBook ]
 }
+
+data[authorIndex] = authorFind
+writeFile(data);
+
 res.status(201).json({message: "new book added", author: authorFind })
 
 }

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.writeFile = exports.getIdForBooks = exports.readFile = exports.validateEntry = void 0;
+exports.getIdForBooks = exports.writeFile = exports.readFile = exports.validateEntry = void 0;
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const joi_1 = __importDefault(require("joi"));
@@ -15,8 +15,8 @@ const validateEntry = (data) => {
     const schema = joi_1.default.object({
         author: joi_1.default.string().required(),
         age: joi_1.default.number().required(),
-        address: joi_1.default.string().required(),
-        books: joi_1.default.array().required()
+        address: joi_1.default.string().required()
+        // books: Joi.array().required()
     }).unknown();
     return schema.validate(data);
 };
@@ -27,17 +27,18 @@ const readFile = () => {
         return JSON.parse(data);
     }
     catch (error) {
+        console.log(error, "errored");
         return [];
     }
 };
 exports.readFile = readFile;
+const writeFile = (data) => {
+    fs_1.default.writeFileSync(myFilePath, JSON.stringify(data, null, 4));
+};
+exports.writeFile = writeFile;
 function getIdForBooks(booksData) {
     return booksData.map((book, index) => {
         return { id: `book${index + 1}`, ...book };
     });
 }
 exports.getIdForBooks = getIdForBooks;
-const writeFile = (data) => {
-    fs_1.default.writeFileSync(myFilePath, JSON.stringify(data, null, 4));
-};
-exports.writeFile = writeFile;

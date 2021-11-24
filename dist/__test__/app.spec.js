@@ -11,7 +11,7 @@ describe('GET AUTHORS', () => {
         expect(res.statusCode).toEqual(200);
     });
     test('should return 200 status for a single author', async () => {
-        const res = await (await (0, supertest_1.default)(app_1.default).get('/author/1'));
+        const res = await (0, supertest_1.default)(app_1.default).get('/author/1');
         expect(res.statusCode).toEqual(200);
     });
 });

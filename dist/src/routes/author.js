@@ -10,7 +10,7 @@ router.get('/', root_controller_1.getAllAuthors);
 router.get('/:id', root_controller_1.getAuthorById);
 router.get('/:authorId/book/:bookId', root_controller_1.getABook);
 router.post('/', root_controller_1.postAuthor);
-router.post('/', root_controller_1.postBook);
+router.post('/:authorId/add-book', root_controller_1.postBook);
 router.put('/:id', root_controller_1.updateAuthor);
 router.put('/:authorId/book/:bookId', root_controller_1.updateBook);
 router.delete('/:id', root_controller_1.deleteAuthor);

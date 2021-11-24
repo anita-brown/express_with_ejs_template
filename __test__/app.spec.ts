@@ -8,7 +8,7 @@ describe('GET AUTHORS', () => {
         expect(res.statusCode).toEqual(200);
     })
     test('should return 200 status for a single author', async () => {
-        const res = await (await supertest(app).get('/author/1'))
+        const res = await supertest(app).get('/author/1')
         expect(res.statusCode).toEqual(200);
     })
 })

@@ -12,8 +12,8 @@ export const validateEntry = (data: author) => {
     const schema = Joi.object({
         author: Joi.string().required(),
         age: Joi.number().required(),
-        address: Joi.string().required(),
-        books: Joi.array().required()
+        address: Joi.string().required()
+        // books: Joi.array().required()
     }).unknown();
     return schema.validate(data)
 }
@@ -23,13 +23,19 @@ export const readFile = () => {
     try{
         const data = fs.readFileSync(myFilePath, {encoding:'utf8'})
         return JSON.parse(data);
-
+        
     }catch(error){
+        console.log(error, "errored")
         return []
     }
     
 }
 
+
+export const writeFile = (data: author[]) =>{
+        fs.writeFileSync(myFilePath, JSON.stringify(data, null, 4));
+
+}
     
 export function getIdForBooks (booksData: books[]): books[] {
     return booksData.map((book: books, index) => {
@@ -56,9 +62,3 @@ export interface books {
     datePublished: Date | null,
     serialNumber: number|null
 }
-
-export const writeFile = (data: author[]) =>{
-        fs.writeFileSync(myFilePath, JSON.stringify(data, null, 4));
-
-}
-    
